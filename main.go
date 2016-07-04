@@ -7,21 +7,18 @@ import (
     "os"
     "fmt"
     "strings"
+    "io/ioutil"
 )
 
 const otherWord = "*"
-var transforms = []string{
-    otherWord,
-    otherWord,
-    otherWord,
-    otherWord,
-    otherWord + "app",
-    otherWord + "site",
-    otherWord + "time",
-    "get" + otherWord,
-    "lets" + otherWord,
-}
+var transforms = []string{}
 func main() {
+
+    buffer, _ := ioutil.ReadFile("other_word.txt")
+    for _, line := range strings.Split(string(buffer), "\n") {
+        transforms = append(transforms, line)
+    }
+
     rand.Seed((time.Now().UTC().UnixNano()))
     s := bufio.NewScanner(os.Stdin)
     for s.Scan() {
